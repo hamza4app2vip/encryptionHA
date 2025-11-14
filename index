@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>إخفاء نص داخل رموز غير مرئية</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(circle at top, #020617, #020617 40%, #000000 100%);
+      color: #e5e7eb;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      padding: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(18px);
+    }
+
+    .header {
+      margin-bottom: 18px;
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-flex;
+      margin-top: 8px;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.18);
+      border: 1px solid rgba(96, 165, 250, 0.7);
+      font-size: 0.78rem;
+      color: #bfdbfe;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.4);
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #e5e7eb;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f9fafb;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px #38bdf8;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 14px;
+    }
+
+    .col {
+      flex: 1 1 260px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #020617;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35);
+    }
+
+    button.secondary {
+      background: rgba(31, 41, 55, 0.95);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    button.small {
+      padding: 6px 11px;
+      font-size: 0.8rem;
+    }
+
+    button:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.7);
+    }
+
+    button:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: none;
+    }
+
+    .info {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    .code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 3px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="title">إخفاء نص سري داخل رموز غير مرئية</div>
+      <div class="subtitle">
+        هنا تقدر تخلي نص ظاهر بسيط مثل
+        <span class="code">**</span>
+        لكن يكون بداخله رسالة سرية كاملة بغير مرئية.
+      </div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        نظام ترميز حقيقي 
+      </div>
+    </div>
+
+    <!-- إدخال البيانات -->
+    <div class="row">
+      <div class="col">
+        <label for="publicText">النص الظاهر للجميع </label>
+        <input id="publicText" type="text" placeholder="مثال: ** أو أي نص ظاهر" value="**">
+        <div class="info">
+          هذا هو النص الذي يراه الناس. لا يتغير شكله حتى بعد إضافة الرسالة السرية بداخله.
+        </div>
+      </div>
+      <div class="col">
+        <label for="secretText">النص السري المخفي داخل الرموز</label>
+        <textarea id="secretText" placeholder="اكتب هنا الرسالة السرية التي تريد إخفاءها..."></textarea>
+      </div>
+    </div>
+
+    <!-- أزرار الترميز وفك الترميز -->
+    <div class="buttons">
+      <button class="primary" id="encodeBtn">
+         ترميز (إخفاء النص السري داخل الظاهر)
+      </button>
+      <button class="secondary" id="decodeBtn">
+         فك الترميز (استخراج النص السري من أي نص)
+      </button>
+    </div>
+
+    <!-- الناتج -->
+    <div class="row">
+      <div class="col">
+        <label for="encodedText">النص الناتج (شكله عادي لكنه يحتوي الرسالة)</label>
+        <textarea id="encodedText" placeholder="بعد الترميز سيظهر هنا نص واحد شكله طبيعي..."></textarea>
+        <div class="buttons">
+          <button class="secondary small" id="copyEncoded">نسخ النص الناتج</button>
+        </div>
+        <div class="info">
+          هذا النص هو الذي ترسله للناس. سيظهر لهم تماماً مثل النص الظاهر، لكن من يمتلك أداة فك الترميز
+          يستطيع قراءة الرسالة السرية.
+        </div>
+      </div>
+      <div class="col">
+        <label for="decodedText">النص السري بعد فك الترميز</label>
+        <textarea id="decodedText" placeholder="عند فك الترميز، تظهر هنا الرسالة السرية إن وُجدت..."></textarea>
+        <div class="buttons">
+          <button class="secondary small" id="copyDecoded">نسخ النص السري</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+     
+      <br>
+      
+      <span class="code"></span>,
+      <span class="code"></span>.
+     
+    </div>
+
+    <div class="footer">
+      <span></span>
+      <span class="code"></span>
+    </div>
+  </div>
+
+  <script>
+    // رموز مخفية لتمثيل البتات
+    const ZERO = '\u200B'; // Zero Width Space = 0
+    const ONE  = '\u200C'; // Zero Width Non-Joiner = 1
+
+    // تعبير منتظم لجلب الرموز المخفية من النص
+    const INVISIBLE_BITS_REGEX = /[\u200B\u200C]/g;
+
+    /**
+     * تحويل عدد (0-65535) إلى سلسلة بت بطول 16 بت
+     */
+    function numberTo16Bits(num) {
+      let bin = num.toString(2);
+      return bin.padStart(16, '0');
+    }
+
+    /**
+     * تحويل أول 16 بت إلى عدد (لطول الرسالة)
+     */
+    function bitsToNumber(bits16) {
+      return parseInt(bits16, 2);
+    }
+
+    /**
+     * تحويل نص عادي إلى سلسلة من البتات (16 بت لكل حرف)
+     */
+    function textToBits(str) {
+      let bits = '';
+      for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i); // 0-65535
+        bits += numberTo16Bits(code);
+      }
+      return bits;
+    }
+
+    /**
+     * تحويل سلسلة بتات إلى نص (كل 16 بت = حرف)
+     */
+    function bitsToText(bits) {
+      let result = '';
+      for (let i = 0; i + 16 <= bits.length; i += 16) {
+        const chunk = bits.slice(i, i + 16);
+        const code = parseInt(chunk, 2);
+        result += String.fromCharCode(code);
+      }
+      return result;
+    }
+
+    /**
+     * تحويل البتات (0/1) إلى رموز مخفية (ZERO/ONE)
+     */
+    function bitsToInvisible(bits) {
+      return bits.replace(/0/g, ZERO).replace(/1/g, ONE);
+    }
+
+    /**
+     * تحويل رموز مخفية (ZERO/ONE) إلى بتات (0/1)
+     */
+    function invisibleToBits(invisibleStr) {
+      return invisibleStr
+        .replace(new RegExp(ZERO, 'g'), '0')
+        .replace(new RegExp(ONE, 'g'), '1');
+    }
+
+    /**
+     * ترميز: إخفاء نص سري داخل نص ظاهر
+     */
+    function encodeHidden(publicText, secretText) {
+      if (!secretText) return publicText; // لو ما في نص سري رجّع الظاهر كما هو
+
+      const length = secretText.length;
+      if (length > 65535) {
+        throw new Error("النص السري طويل جداً (الحد 65535 حرف).");
+      }
+
+      // 1) 16 بت لطول الرسالة
+      const lengthBits = numberTo16Bits(length);
+
+      // 2) بتات المحتوى
+      const contentBits = textToBits(secretText);
+
+      // 3) دمجهم
+      const allBits = lengthBits + contentBits;
+
+      // 4) تحويل إلى رموز مخفية
+      const invisiblePayload = bitsToInvisible(allBits);
+
+      // 5) إدراج الرموز المخفية في نهاية النص الظاهر
+      // يمكن إدراجها بعد أول حرف / أو في منتصف النص أيضاً، لكن هنا بنخليها في النهاية
+      return publicText + invisiblePayload;
+    }
+
+    /**
+     * فك ترميز: استخراج النص السري من نص يحتوي رموز مخفية
+     */
+    function decodeHidden(text) {
+      // جلب كل الرموز المخفية (ZERO/ONE)
+      const invisibleMatches = text.match(INVISIBLE_BITS_REGEX);
+      if (!invisibleMatches || invisibleMatches.length === 0) {
+        return '';
+      }
+
+      const invisibleStr = invisibleMatches.join('');
+      const bits = invisibleToBits(invisibleStr);
+
+      if (bits.length < 16) {
+        return '';
+      }
+
+      // أول 16 بت = طول الرسالة
+      const lengthBits = bits.slice(0, 16);
+      const msgLength = bitsToNumber(lengthBits);
+
+      const neededBits = msgLength * 16;
+      const availableContentBits = bits.slice(16, 16 + neededBits);
+
+      if (availableContentBits.length < neededBits) {
+        // البيانات ناقصة أو النص ليس مرمّزاً بالكامل
+        return bitsToText(availableContentBits); // نحاول قدر الإمكان
+      }
+
+      const secretText = bitsToText(availableContentBits);
+      return secretText;
+    }
+
+    // عناصر الواجهة
+    const publicTextEl   = document.getElementById('publicText');
+    const secretTextEl   = document.getElementById('secretText');
+    const encodedTextEl  = document.getElementById('encodedText');
+    const decodedTextEl  = document.getElementById('decodedText');
+
+    const encodeBtn      = document.getElementById('encodeBtn');
+    const decodeBtn      = document.getElementById('decodeBtn');
+    const copyEncodedBtn = document.getElementById('copyEncoded');
+    const copyDecodedBtn = document.getElementById('copyDecoded');
+
+    encodeBtn.addEventListener('click', () => {
+      try {
+        const pub = publicTextEl.value || '';
+        const sec = secretTextEl.value || '';
+        const encoded = encodeHidden(pub, sec);
+        encodedTextEl.value = encoded;
+      } catch (err) {
+        alert(err.message || 'حصل خطأ أثناء عملية الترميز.');
+      }
+    });
+
+    decodeBtn.addEventListener('click', () => {
+      const text = encodedTextEl.value || publicTextEl.value || '';
+      if (!text) {
+        alert('ضع نصاً مشفّراً في خانة "الناتج" أو اكتب النص في خانة النص الظاهر.');
+        return;
+      }
+      const decoded = decodeHidden(text);
+      decodedTextEl.value = decoded || '(لم يتم العثور على رسالة سرية أو أن البيانات ناقصة)';
+    });
+
+    async function copyToClipboard(el, button) {
+      try {
+        await navigator.clipboard.writeText(el.value || '');
+        const old = button.textContent;
+        button.textContent = '✓ تم النسخ';
+        setTimeout(() => button.textContent = old, 1200);
+      } catch {
+        alert('تعذر النسخ، انسخ النص يدوياً.');
+      }
+    }
+
+    copyEncodedBtn.addEventListener('click', () => {
+      copyToClipboard(encodedTextEl, copyEncodedBtn);
+    });
+
+    copyDecodedBtn.addEventListener('click', () => {
+      copyToClipboard(decodedTextEl, copyDecodedBtn);
+    });
+  </script>
+</body>
+</html>
